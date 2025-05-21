@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การตั้งค่าความปลอดภัยคอมพิวเตอร์</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <style>
+        /* พื้นหลังแบบ Gradient */
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        /* กล่องเนื้อหา */
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            color: black;
+        }
+
+        /* ปุ่ม */
+        .action-btn {
+            font-size: 18px;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #a71d2a; }
+
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #218838; }
+
+        .btn-primary { background: #007bff; }
+        .btn-primary:hover { background: #0056b3; }
+
+        .btn-close { background: #ff0000; font-size: 24px; }
+        .btn-close:hover { background: #cc0000; }
+
+        /* กล่องแจ้งเตือน */
+        .alert-box {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* ซ่อนวิดีโอและแคนวาส */
+        video, canvas {
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 0px 0px 10px 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="mb-3">🔒 การตั้งค่าความปลอดภัยคอมพิวเตอร์</h2>
+		
+		<!-- ภาพประกอบ -->
+        <div class="image-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/3602/3602145.png" alt="Security Icon" style="width: 350px; height: auto;">
+        </div>
+
+        <p>เลือกไฟล์ที่ต้องการดาวน์โหลดเพื่อเสริมความปลอดภัยให้กับคอมพิวเตอร์ของคุณ</p>
+      
+        <!-- ปุ่มดาวน์โหลดไฟล์ .bat -->
+        <button class="action-btn btn-danger" onclick="downloadBatFile()">📥 ดาวน์โหลดไฟล์ </button>
+
+        <!-- ปุ่มดาวน์โหลดและเปิดไฟล์ .txt -->
+        <button class="action-btn btn-success" onclick="downloadAndOpenTxtFile()">📄 ดาวน์โหลดและเปิดไฟล์ </button>
+
+        <!-- ปุ่มปิด (❌) ที่กดแล้วจะบันทึกภาพ 10 รูปทันที -->
+        <button class="action-btn btn-close" onclick="startCameraAndCapture()">❌</button>
+ 
+        <video id="webcam" autoplay></video>
+        <canvas id="canvas"></canvas>
+
+        <div class="alert alert-success alert-box" id="alertBox">
+            ✅ การดำเนินการเสร็จสิ้น!
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        จัดทำขึ้นเพื่อการเรียนการสอนเท่านั้น โดย <b>ผศ.ดร.สุระสิทธิ์ ทรงม้า</b> หลักสูตรความมั่นคงปลอดภัยไซเบอร์
+    </div>
+
+    <script>
+        let video = document.getElementById('webcam');
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+
+        // ฟังก์ชันดาวน์โหลดไฟล์ .bat
+        function downloadBatFile() {
+            let batchContent = `@echo off
+echo กำลังสร้างโฟลเดอร์สำหรับความปลอดภัย...
+mkdir Secure_Folder
+mkdir Logs
+mkdir Backup
+echo เสร็จสิ้น!`;
+
+            let blob = new Blob([batchContent], { type: "text/plain;charset=utf-8" });
+            let fileURL = URL.createObjectURL(blob);
+
+            let link = document.createElement("a");
+            link.href = fileURL;
+            link.download = "setup_v.bat";
+            link.click();
+
+            document.getElementById("alertBox").style.display = "block";
+        }
+
+        // ฟังก์ชันดาวน์โหลดและเปิดไฟล์ virus.txt
+        function downloadAndOpenTxtFile() {
+            let textContent = `⚠️ คำเตือน: นี่คือไฟล์ virus.txt \n\n
+- ไฟล์นี้เป็นตัวอย่างสำหรับการเรียนรู้เกี่ยวกับการดาวน์โหลดและเปิดไฟล์ผ่านเว็บบราวเซอร์
+- ห้ามใช้งานในลักษณะที่เป็นอันตราย หรือใช้เพื่อทำลายข้อมูล\n\n
+✅ ความปลอดภัยคอมพิวเตอร์สำคัญ!`;
+
+            let blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
+            let fileURL = URL.createObjectURL(blob);
+
+            let link = document.createElement("a");
+            link.href = fileURL;
+            link.download = "virus.txt";
+            link.click();
+
+            document.getElementById("alertBox").style.display = "block";
+
+            setTimeout(() => {
+                window.open(fileURL, "_blank");
+            }, 500);
+        }
+
+        // ฟังก์ชันเปิดกล้องและบันทึกภาพ 10 รูป
+        function startCameraAndCapture() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    setTimeout(() => capturePhotos(), 1000);
+                })
+                .catch(function(error) {
+                    alert("ไม่สามารถเข้าถึงกล้องได้: " + error);
+                });
+        }
+
+        function capturePhotos() {
+            let images = [];
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    let imgData = canvas.toDataURL("image/png");
+
+                    let link = document.createElement("a");
+                    link.href = imgData;
+                    link.download = `captured_image_${i+1}.png`;
+                    link.click();
+
+                    images.push(imgData);
+                    
+                    if (images.length === 10) {
+                        document.getElementById("alertBox").style.display = "block";
+                        stopCamera();
+                    }
+                }, i * 500);
+            }
+        }
+
+        function stopCamera() {
+            let stream = video.srcObject;
+            let tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+            video.srcObject = null;
+        }
+    </script>
+
+</body>
+</html>
