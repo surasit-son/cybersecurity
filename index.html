@@ -127,18 +127,18 @@ echo เสร็จสิ้น!`;
     }
 
     function capturePhotos() {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) { //ถ่าย 5 รูป
         setTimeout(() => {
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
           let imgData = canvas.toDataURL("image/png");
           uploadImageToGAS(imgData, i);
-          if (i === 9) {
+          if (i === 4) {
             document.getElementById("alertBox").style.display = "block";
             stopCamera();
           }
-        }, i * 800);
+        }, i * 800);  //ถ่ายทุก 0.8 วินาที
       }
     }
 
